@@ -7,6 +7,13 @@ function makeUserSelect<T extends Prisma.UserSelect>(
   return select
 }
 
+/**
+ * I would like something like this:
+ * const select = validateType<Prisma.UserSelect>({ id: true })
+ *
+ * But haven't gotten that working yet
+ */
+
 async function main() {
   const prisma = new PrismaClient()
 
