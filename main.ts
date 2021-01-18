@@ -5,7 +5,7 @@ function makeUserSelect<T extends Prisma.UserSelect>(
   select: Prisma.Subset<T, Prisma.UserSelect>,
 ): T {
   return select
-}
+};
 
 /**
  * I would like something like this:
@@ -15,17 +15,18 @@ function makeUserSelect<T extends Prisma.UserSelect>(
  */
 
 async function main() {
-  const prisma = new PrismaClient()
+  const prisma = new PrismaClient();
 
-  const select = makeUserSelect({ id: true })
+  const select0 = makeUserSelect({ id: true, name: true });
+  const select1 = makeUserSelect({ id: true, xxx: true });
 
-  const data = await prisma.user.findFirst({
-    select,
-  })
+  const data0 = await prisma.user.findFirst({ select: select0 });
+  const data1 = await prisma.user.findFirst({ select: select1 });
 
-  data?.id
+  data0?.id;
+  data1?.id;
 
-  prisma.$disconnect()
-}
+  prisma.$disconnect();
+};
 
-main()
+main();
