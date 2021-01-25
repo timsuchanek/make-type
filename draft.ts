@@ -21,7 +21,7 @@ const test0 = validateType<Prisma.UserSelect>({ id: true });
  * TS has a limitations, we cannot 'just' pass one of the generics. So we have
  * to split the generic input into virtual functions like demonstrated below:
  */
-declare function validator<V>(): <S>(select: Exact<Narrow<S, V>, V>) => S;
+declare function validator<V>(): <S>(select: Narrow<Exact<S, V>>) => S;
 
 const userValidator = validator<Prisma.UserSelect>();
 
@@ -50,6 +50,8 @@ async function main() {
 
   const data2 = await prisma.user.findFirst({ select: select2 });
   const data3 = await prisma.user.findFirst({ select: select3 });
+  
+  const select4 = userValidator({ asd: true });  // no errors
 
   prisma.$disconnect();
 }
