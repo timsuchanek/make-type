@@ -51,7 +51,7 @@ async function main() {
   const data2 = await prisma.user.findFirst({ select: select2 });
   const data3 = await prisma.user.findFirst({ select: select3 });
   
-  const select4 = userValidator({ asd: true });  // no errors
+  const select4 = userValidator({ asd: true });  // now errors
 
   prisma.$disconnect();
 }
