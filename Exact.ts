@@ -4,7 +4,7 @@
  */
 type Exact<A, W> = {
     [K in keyof A]: K extends keyof W
-    ? A[K] extends W[K] ? A[K] : W[K]
+    ? A[K] extends W[K] ? A[K] & W[K] : W[K]
     : never
 }
 
