@@ -39,8 +39,8 @@ async function main() {
   prisma.$disconnect();
 }
 
-const test0 = validator<{a: number}>()({a: '2', b: 2});
-const test1 = validator<{a: number}>()({a: 2, b: 2});
+const test0 = validator<{a: number}>()({a: 2, b: 2});
+const test1 = validator<{a: number}>()({a: '2', b: 2});
 const test2 = validator<{a: number}>()({a: 1});
 const test3 = validator<{a: number}>()({});
 const test4 = validator<{a?: number} | number>()({});
