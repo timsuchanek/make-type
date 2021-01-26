@@ -2,11 +2,6 @@
  * `Exact` forces a type to comply by another type. It will need to be a subset
  * and must have exactly the same properties, no more, no less.
  */
-
-/**
- * `Exact` forces a type to comply by another type. It will need to be a subset
- * and must have exactly the same properties, no more, no less.
- */
 type Exact<A, W> = 
 A extends W ? W extends unknown ? 
 A extends NotMappableType ? A : {
@@ -23,5 +18,3 @@ type NotMappableType =
 | ((...args: any) => any);
 
 export {Exact};
-
-type Try<A, B> = A extends B ? A : never
