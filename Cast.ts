@@ -1,3 +1,3 @@
-type Cast<A, B> = A extends B ? A : B
+type Cast<A, B> = A extends B ? A : B;
 
 export {Cast}
