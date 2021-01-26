@@ -25,7 +25,7 @@ declare function validator<V>(): <S>(select: Exact<S, V>) => S;
 const userValidator = validator<Prisma.UserSelect>();
 
 async function main() {
-  const prisma = new PrismaClient()
+  const prisma = new PrismaClient();
 
   const select0 = userValidator({ id: true, name: true });
   const select1 = userValidator({ id: true, xxx: true });
@@ -42,16 +42,16 @@ async function main() {
 const test0 = validator<{a: number}>()({ a: '2', b: 2 });
 const test1 = validator<{a: number}>()({ a: 2, b: 2 });
 const test2 = validator<{a: number}>()({ a: 1 });
-const test3 = validator<{a: number}>()({});
-const test4 = validator<{a?: number} | number>()({});
+const test3 = validator<{a: number}>()({ });
+const test4 = validator<{a?: number} | number>()({ });
 const test5 = validator<{a?: number} | number>()({ a: 1 });
 const test6 = validator<{a?: number} | number>()(1);
 const test7 = validator<{a?: number} | [1?]>()(1);
 const test8 = validator<{a?: number} | [1?]>()([2]);
 const test9 = validator<{a?: number} | [1?]>()([1]);
 const test10 = validator<{a?: number} | [1?]>()([]);
-const test11 = validator<{a: {a: number}}>()({a: {a: 42}});
-const test12 = validator<{a: {a: number}}>()({a: {a: '42'}});
+const test11 = validator<{a: {a: number}}>()({ a: { a: 42 } });
+const test12 = validator<{a: {a: number}}>()({ a: { a: '42' } });
 
 // The following is only relevant for type system discussions
 // `Exactify` is an `Exact` utility proposed by the community
@@ -66,16 +66,15 @@ declare function validatorExactify<V>(): <S extends Exactify<V, S>>(select: S) =
 const testE0 = validatorExactify<{a: number}>()({ a: 2, b: 2 });
 const testE1 = validatorExactify<{a: number}>()({ a: '2', b: 2 }); // can't tell why it's wrong
 const testE2 = validatorExactify<{a: number}>()({ a: 1 });
-const testE3 = validatorExactify<{a: number}>()({});
-const testE4 = validatorExactify<{a?: number} | number>()({});
-const testE5 = validatorExactify<{a?: number} | number>()({ a: 1 }); // fails on mixed unions
+const testE3 = validatorExactify<{a: number}>()({ });
+const testE4 = validatorExactify<{a?: number} | number>()({ });
+const testE5 = validatorExactify<{a?: number} | number>()({ a: 1 }); // fails on mixed unions!
 const testE6 = validatorExactify<{a?: number} | number>()(1);
-const testE7 = validatorExactify<{a?: number} | [1?]>()(1);
+const testE7 = validatorExactify<{a?: number} | [1?]>()(1); // does not fail when it should!
 const testE8 = validatorExactify<{a?: number} | [1?]>()([2]); // can't tell why it's wrong
 const testE9 = validatorExactify<{a?: number} | [1?]>()([1]); // can't tell why it's wrong
 const testE10 = validatorExactify<{a?: number} | [1?]>()([]);
-const testE11 = validatorExactify<{a: {a: number}}>()({a: {a: 42}}); // does not narrow user input
-const testE12 = validatorExactify<{a: {a: number}}>()({a: {a: '42'}}); // can't tell why it's wrong
-
+const testE11 = validatorExactify<{a: {a: number}}>()({ a: { a: 42 } }); // does not narrow user input
+const testE12 = validatorExactify<{a: {a: number}}>()({ a: { a: '42' } }); // can't tell why it's wrong
 
 main();
