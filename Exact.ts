@@ -7,15 +7,15 @@ import {Narrowable} from "./Narrowable";
  */
 type Exact<A, W = unknown> = 
 W extends unknown ?
-    A extends Narrowable ? Cast<A, W> : {
+    A extends Narrowable ? Cast<A, W> : Cast<{
         [K in keyof A]: K extends keyof W
         ? Exact<A[K], W[K]>
         : never
-    } & {
+    }, {
         [K in keyof W]: K extends keyof A
         ? Exact<A[K], W[K]>
-        : never
-    }
+        : W[K]
+    }>
 : never;
 
 export {Exact};
