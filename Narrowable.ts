@@ -1,4 +1,5 @@
 type Narrowable =
+| []
 | string
 | number
 | boolean
