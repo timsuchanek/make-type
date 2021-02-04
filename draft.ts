@@ -39,7 +39,12 @@ async function main() {
   prisma.$disconnect();
 }
 
-const test0 = validator<{a: number}>()({a: 2, b: 2});
+type User = {
+  name: string
+  friends?: User[]
+}
+
+const test0 = validator<User>()({name: 'Pierre', friends: [{name: 'Tim'}]} as User);
 const test1 = validator<{a: number}>()({a: '2', b: 2});
 const test2 = validator<{a: number}>()([]);
 const test3 = validator<{a: number}>()({});
@@ -53,6 +58,7 @@ const test10 = validator<{a?: number} | [1]>()([]);
 const test11 = validator<{a?: number} | [1]>()([1]);
 const test12 = validator<{a: {a: number}}>()({a: {a: 42}});
 const test13 = validator<{a: {a: number}}>()({a: {a: '42'}});
+const test14 = validator<{a: number}>()({a: 2});
 
 // The following is only relevant for type system discussions
 // `Exactify` is an `Exact` utility proposed by the community
@@ -64,7 +70,7 @@ type Exactify<T, X extends T> = T & {
 
 declare function validatorExactify<V>(): <S extends Exactify<V, S>>(select: S) => S;
 
-const testE0 = validatorExactify<{a: number}>()({a: 2, b: 2});
+const testE0 = validatorExactify<User>()({name: 'Pierre', friends: [{name: 'Tim'}]} as User);
 const testE1 = validatorExactify<{a: number}>()({a: '2', b: 2}); // can't tell why it's wrong
 const testE2 = validatorExactify<{a: number}>()([]);
 const testE3 = validatorExactify<{a: number}>()({});
@@ -78,5 +84,6 @@ const testE10 = validatorExactify<{a?: number} | [1]>()([]); // does not fail wh
 const testE11 = validatorExactify<{a?: number} | [1]>()([1]); // fails when it should not!
 const testE12 = validatorExactify<{a: {a: number}}>()({a: {a: 42}}); // does not narrow user input
 const testE13 = validatorExactify<{a: {a: number}}>()({a: {a: '42'}}); // can't tell why it's wrong
+const testE14 = validatorExactify<{a: number}>()({a: 2});
 
 main();
